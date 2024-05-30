@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 use DataTables;
 use Pinata\Pinata;
 
-// include 'vendor/autoload.php';
-
 class NftController extends Controller
 {
     /**
