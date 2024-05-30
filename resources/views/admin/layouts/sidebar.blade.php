@@ -93,8 +93,9 @@
                             class="mdi mdi-border-inside"></i><span class="hide-menu">Cayegory</span></a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="charts.html"
-                        aria-expanded="false"><i class="mdi mdi-arrow-all"></i><span class="hide-menu">Nft</span></a>
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link @if (\Request::route()->getName() == 'nft') active @endif"
+                        href="{{ route('nft.index') }}" aria-expanded="false"><i class="mdi mdi-arrow-all"></i><span
+                            class="hide-menu">Nft</span></a>
                 </li>
             </ul>
         </nav>
