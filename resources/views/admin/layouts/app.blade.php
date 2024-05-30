@@ -20,6 +20,11 @@
         <title>Matrix Admin Lite Free Versions Template by WrapPixel</title>
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('public/assets/images/logo-icon.png') }}" />
         <link href="{{ asset('public/dist/css/style.min.css') }}" rel="stylesheet" />
+        <style>
+            .form-error {
+                color: red;
+            }
+        </style>
     </head>
     @stack('style')
 </head>

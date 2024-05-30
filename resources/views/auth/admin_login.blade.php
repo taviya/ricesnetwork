@@ -19,7 +19,7 @@
     </style>
 </head>
 
-<body>
+<body class="bg-dark">
     <div class="main-wrapper">
         <div class="preloader">
             <div class="lds-ripple">
@@ -84,8 +84,8 @@
                         <div class="row border-top border-secondary">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <div class="pt-3">
-                                        <button class="btn btn-success float-end text-white" type="submit">
+                                    <div class="pt-3 text-center">
+                                        <button class="btn btn-success text-white" type="submit">
                                             Login
                                         </button>
                                     </div>
