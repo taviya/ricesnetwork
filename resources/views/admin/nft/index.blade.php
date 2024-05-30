@@ -28,7 +28,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <button type="button" id="add_user" class="float-right btn btn-primary" data-bs-toggle="modal"
+                        <button type="button" id="add_user" class="float-end btn btn-primary" data-bs-toggle="modal"
                             data-bs-target=".nft_add">Add Nft <i class="fas fa-plus"></i></button>
                     </div>
                     <div class="card-body">
