@@ -6,6 +6,9 @@ use App\Models\Category;
 use App\Models\Nft;
 use Illuminate\Http\Request;
 use DataTables;
+use Pinata\Pinata;
+
+// include 'vendor/autoload.php';
 
 class NftController extends Controller
 {
@@ -24,10 +27,13 @@ class NftController extends Controller
                     $btn = '<i class="fas fa-2x fa-eye text-primary show-nft" data-id="' . $row->id . '"></i> <i class="fas fa-2x fa-trash text-danger delete-nft" data-id="' . $row->id . '"></i>';
                     return $btn;
                 })
+                ->editColumn('image', function ($row) {
+                    return '<img src="https://alchemy.mypinata.cloud/ipfs/' . $row->image . '" />';
+                })
                 ->editColumn('category_id', function ($row) {
                     return $row->getCategory->title;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'image'])
                 ->make(true);
         } else {
             $categories = Category::get();
@@ -61,9 +67,27 @@ class NftController extends Controller
         ]);
 
         $input = $request->all();
-        Nft::create($input);
 
+        if ($request->hasfile('image')) {
+            $file = $request->file('image');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extenstion;
+            $file->move('public/nft/', $filename);
+
+            $image_hash = $this->apiPinata('public/nft/' . $filename);
+            $input['image'] = $image_hash['IpfsHash'];
+        }
+        Nft::create($input);
         return response()->json(['status' => true, 'message' => 'NFT created successfully']);
+    }
+
+    public function apiPinata($filepath)
+    {
+        $private_key = 'ad02cb8fb0cbc01a04bb6d5e43a449cb33ecffcc133bf56484ff8fe6a37ca104';
+        $public_key = 'ec5c8501a2a98e08e508';
+        $pinata = new Pinata($public_key, $private_key);
+        $hash = $pinata->pinFileToIPFS($filepath);
+        return $hash;
     }
 
     /**

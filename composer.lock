@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "93e37c3a8a5ad6f269d314ee09cbaeea",
+    "content-hash": "41833723c0fdf75c1e8c5cc56fcc392a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2088,6 +2088,49 @@
                 }
             ],
             "time": "2023-10-27T15:25:26+00:00"
+        },
+        {
+            "name": "nebulaprotocol/pinata-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kesar/pinata-php.git",
+                "reference": "0248e491781fcabbfed11cc4e748d10c661423de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kesar/pinata-php/zipball/0248e491781fcabbfed11cc4e748d10c661423de",
+                "reference": "0248e491781fcabbfed11cc4e748d10c661423de",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^7.5",
+                "php": ">=7.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cesar Rodriguez",
+                    "email": "kesarr+ipfs@gmail.com"
+                }
+            ],
+            "description": "Pinata.cloud library in PHP",
+            "support": {
+                "issues": "https://github.com/kesar/pinata-php/issues",
+                "source": "https://github.com/kesar/pinata-php/tree/master"
+            },
+            "time": "2022-09-15T07:50:48+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -9483,6 +9526,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "nebulaprotocol/pinata-php": 20,
         "web3p/web3.php": 20
     },
     "prefer-stable": true,
