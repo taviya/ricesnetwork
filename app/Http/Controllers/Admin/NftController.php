@@ -160,4 +160,69 @@ class NftController extends Controller
         $nft->delete();
         return response()->json(array('status' => TRUE, 'message' => 'Delete successfully.'));
     }
+
+    /**
+     * NFT get API.
+     */
+    // public function getNft(Request $request)
+    // {
+    //     $perPage = $request->has('per_page') ? (int) $request->per_page : 10;
+    //     $currentPage = $request->has('page') ? (int) $request->page : 1;
+    //     $sortBy = $request->has('sort_by') ? $request->sort_by : 'id';
+    //     $sortOrder = $request->has('sort_order') ? $request->sort_order : 'asc';
+    //     $categoryId = $request->has('category_id') ? (int) $request->category_id : null;
+
+    //     $query = Nft::with('getCategory');
+
+    //     if ($categoryId) {
+    //         $query->where('category_id', $categoryId);
+    //     }
+
+    //     $sortFunction = function ($a, $b) use ($sortBy, $sortOrder) {
+    //         if ($sortOrder === 'asc') {
+    //             return $a->$sortBy < $b->$sortBy ? -1 : 1;
+    //         } else {
+    //             return $a->$sortBy > $b->$sortBy ? -1 : 1;
+    //         }
+    //     };
+
+    //     if ($sortBy === 'random') {
+    //         $NFTs = $query->get()->shuffle();
+    //     } else {
+    //         $NFTs = $query->orderBy($sortBy, $sortOrder)->paginate($perPage, ['*'], 'page', $currentPage);
+    //     }
+
+    //     return response()->json([
+    //         'status' => true,
+    //         'data' => $NFTs->toArray(),
+    //         'pagination' => [
+    //             'total' => $NFTs->total(),
+    //             'per_page' => $perPage,
+    //             'current_page' => $currentPage,
+    //             'last_page' => $NFTs->lastPage(),
+    //         ],
+    //     ]);
+    // }
+
+    public function getNft(Request $request)
+    {
+        $categoryId = $request->input('category_id');
+        $sortBy = $request->input('sort_by', 'asc');
+        $perPage = $request->input('per_page', 10);
+
+        $query = Nft::query()->with('getCategory');
+
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+
+        if ($sortBy === 'asc' || $sortBy === 'desc') {
+            $query->orderBy('created_at', $sortBy);
+        } elseif ($sortBy === 'random') {
+            $query->inRandomOrder();
+        }
+
+        $nfts = $query->paginate($perPage);
+        return response()->json($nfts);
+    }
 }
