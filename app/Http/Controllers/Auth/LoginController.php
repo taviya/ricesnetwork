@@ -35,10 +35,12 @@ class LoginController extends Controller
     public function adminLogin(Request $request)
     {
         $this->validateLogin($request);
-        if (Auth::attempt([
-            'email' => $request->email,
-            'password' => $request->password,
-        ])) {
+        if (
+            Auth::attempt([
+                'email' => $request->email,
+                'password' => $request->password,
+            ])
+        ) {
             return redirect()->route('admin')->with('success', 'Login successfully.');
         } else {
             return back()->withInput($request->input())->withErrors(['error_message' => 'Invalid credential.']);
@@ -49,7 +51,7 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         $ethAddress = Str::lower($request->ethAddress);
-        $message   = $request->message;
+        $message = $request->message;
         $signature = $request->signature;
 
         $valid = $this->verifySignature($message, $signature, $ethAddress);
@@ -77,7 +79,7 @@ class LoginController extends Controller
             "s" => substr($signature, 66, 64)
         ];
 
-        $recId  = ord(hex2bin(substr($signature, 130, 2))) - 27;
+        $recId = ord(hex2bin(substr($signature, 130, 2))) - 27;
 
         if ($recId != ($recId & 1)) {
             return false;
@@ -98,11 +100,11 @@ class LoginController extends Controller
     {
         try {
             $ethAddress = Str::lower($request->ethAddress);
-            $message   = $request->message;
+            $message = $request->message;
             $signature = $request->signature;
 
-            $checkAddressNotExist = User::where('eth_address' , $ethAddress)->get();
-            if($checkAddressNotExist && count($checkAddressNotExist) > 0){
+            $checkAddressNotExist = User::where('eth_address', $ethAddress)->get();
+            if ($checkAddressNotExist && count($checkAddressNotExist) > 0) {
                 return response()->json(['error' => 'Address already exist, please try again with different wallet address'], 200);
             }
 
@@ -118,5 +120,16 @@ class LoginController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 200);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/admin');
     }
 }
