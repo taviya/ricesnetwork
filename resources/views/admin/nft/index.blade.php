@@ -49,7 +49,7 @@
                                                     <th class="sorting" tabindex="0" aria-controls="zero_config"
                                                         rowspan="1" colspan="1"
                                                         aria-label="Position: activate to sort column ascending"
-                                                        style="width: 187.937px;">Title</th>
+                                                        style="width: 187.937px;">Name</th>
                                                     <th class="sorting" tabindex="0" aria-controls="zero_config"
                                                         rowspan="1" colspan="1"
                                                         aria-label="Position: activate to sort column ascending"
