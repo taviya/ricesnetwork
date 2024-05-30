@@ -61,6 +61,7 @@ class NftController extends Controller
             'category_id' => 'required|integer',
             'name' => 'required|string',
             // 'image' => 'required|string',
+            'image' => 'required|nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'price' => 'required|numeric',
         ]);
 
@@ -74,6 +75,7 @@ class NftController extends Controller
 
             $image_hash = $this->apiPinata('public/nft/' . $filename);
             $input['image'] = $image_hash['IpfsHash'];
+            unlink(public_path('nft/' . $filename));
         }
         Nft::create($input);
         return response()->json(['status' => true, 'message' => 'NFT created successfully']);
@@ -124,11 +126,22 @@ class NftController extends Controller
         $this->validate($request, [
             'category_id' => 'required|integer',
             'name' => 'required|string',
-            // 'image' => 'required|string',
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'price' => 'required|numeric',
         ]);
 
         $input = $request->all();
+
+        if ($request->hasfile('image')) {
+            $file = $request->file('image');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extenstion;
+            $file->move('public/nft/', $filename);
+
+            $image_hash = $this->apiPinata('public/nft/' . $filename);
+            $input['image'] = $image_hash['IpfsHash'];
+            unlink(public_path('nft/' . $filename));
+        }
 
         unset($input['_method']);
         unset($input['update_id']);
