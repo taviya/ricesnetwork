@@ -119,7 +119,8 @@
                         </div>
                         <div class="form-group">
                             <label for="image" class="col-form-label">Image:</label>
-                            <input type="file" data-validation="required" name="image" class="form-control"
+                            <input type="file" data-validation="required mime"
+                                data-validation-allowing="jpg, png, jpeg , gif" name="image" class="form-control"
                                 id="image">
                         </div>
                         <div class="form-group">
