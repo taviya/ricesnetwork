@@ -28,7 +28,7 @@ class NftController extends Controller
                     return $btn;
                 })
                 ->editColumn('image', function ($row) {
-                    return '<img src="https://alchemy.mypinata.cloud/ipfs/' . $row->image . '" />';
+                    return '<img src="https://alchemy.mypinata.cloud/ipfs/' . $row->image . '" height="100" width="100" />';
                 })
                 ->editColumn('category_id', function ($row) {
                     return $row->getCategory->title;
