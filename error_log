@@ -1,0 +1,2 @@
+[23-Feb-2024 15:47:05 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/devcznbx/mining.devcodesaga.tech/app/Http/Controllers/CronController.php on line 4
+[23-Feb-2024 15:47:07 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/devcznbx/mining.devcodesaga.tech/app/Http/Controllers/CronController.php on line 4
