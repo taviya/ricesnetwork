@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Size;
-use App\Models\Rarity;
-use App\Models\User;
+use App\Models\Nft;
 
 class AdminController extends Controller
 {
@@ -18,7 +15,8 @@ class AdminController extends Controller
     public function index()
     {
         $categoryCount = Category::get()->count();
-        return view('admin.index', compact('categoryCount'));
+        $nft = Nft::get()->count();
+        return view('admin.index', compact('categoryCount', 'nft'));
     }
 
     /**

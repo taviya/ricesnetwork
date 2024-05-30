@@ -37,7 +37,7 @@
                         <h1 class="font-light text-white">
                             <i class="mdi mdi-arrow-all"></i>
                         </h1>
-                        <h6 class="text-white">NFT</h6>
+                        <h6 class="text-white">NFT({{ $nft }})</h6>
                     </div>
                 </div>
             </div>
