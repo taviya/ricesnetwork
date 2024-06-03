@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('get_nft', [NftController::class, 'getNft']);
+Route::post('get_category', [NftController::class, 'getCategory']);

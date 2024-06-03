@@ -12,7 +12,7 @@ class Nft extends Model
         'category_id',
         'name',
         'image',
-        'price',
+        'json'
     ];
 
     public function getCategory()

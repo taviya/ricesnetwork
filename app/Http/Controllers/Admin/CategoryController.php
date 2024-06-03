@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use DataTables;
 use Image;
+use Illuminate\Support\Facades\Config;
 
 class CategoryController extends Controller
 {
@@ -22,7 +23,12 @@ class CategoryController extends Controller
                     $btn = '<i class="fas fa-2x fa-eye text-primary show-category" data-id="' . $row->id . '"></i> <i class="fas fa-2x fa-trash text-danger delete-category" data-id="' . $row->id . '"></i>';
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->editColumn('image', function ($row) {
+                    $baseUrl = config('app.url'); // Retrieve the base URL from the configuration
+                    $imagePath = $baseUrl . '/public/category/' . $row->image; // Combine base URL with the image path from the database
+                    return '<img src="' . $imagePath . '" height="100" width="100" />';
+                })
+                ->rawColumns(['action', 'image'])
                 ->make(true);
         } else {
             return view('admin.category.index');
@@ -44,11 +50,21 @@ class CategoryController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
+            'image' => 'required|nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        
+        $filename = '';
         $input = $request->all();
+        if ($request->hasfile('image')) {
+            $file = $request->file('image');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extenstion;
+            $file->move('public/category/', $filename);
+        }
         Category::create([
             'title' => $input['title'],
+            'image' => $filename
         ]);
         return response()->json(array('status' => TRUE, 'message' => 'Category add successfully'));
     }
@@ -80,7 +96,14 @@ class CategoryController extends Controller
         ]);
 
         $input = $request->all();
-
+        if ($request->hasfile('image')) {
+            $file = $request->file('image');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extenstion;
+            $file->move('public/category/', $filename);
+            $input['image'] = $filename;
+        }
+        
         unset($input['_method']);
         unset($input['update_id']);
         $category->update($input);

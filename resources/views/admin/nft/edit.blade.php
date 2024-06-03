@@ -23,11 +23,6 @@
         <input type="file" data-validation="mime" data-validation-allowing="jpg, png, jpeg , gif" name="image"
             class="form-control" id="image">
     </div>
-    <div class="form-group">
-        <label for="price" class="col-form-label">Price:</label>
-        <input type="number" data-validation="required" name="price" class="form-control" id="price"
-            value="{{ $nft->price }}">
-    </div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

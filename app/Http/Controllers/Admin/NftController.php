@@ -61,8 +61,7 @@ class NftController extends Controller
             'category_id' => 'required|integer',
             'name' => 'required|string',
             // 'image' => 'required|string',
-            'image' => 'required|nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'price' => 'required|numeric',
+            'image' => 'required|nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $input = $request->all();
@@ -75,7 +74,23 @@ class NftController extends Controller
 
             $image_hash = $this->apiPinata('public/nft/' . $filename);
             $input['image'] = $image_hash['IpfsHash'];
-            unlink(public_path('nft/' . $filename));
+            
+            $array = array(
+                'name' => $input['name'],
+                'image' => 'ipfs://' . $input['image'],
+                'description' => 'Rices Network is a main website aimed at creating a Layer 2 agricultural system focused on decentralizing the power farming (Defa) within the ecosystem. Therefore, to connect consumers, producers, and investors together, a blockchain-based decentralized  system was created to strengthen food security, flexibility, and transparency in the future.',
+                'date' => time()
+            );
+
+            $data = json_encode($array, JSON_UNESCAPED_SLASHES);
+            $file_name = 'public/json/' . $input['image'] . '.json';
+            $myfile = fopen($file_name, "w") or die("Unable to open file!");
+            $read = fwrite($myfile, $data);
+            fclose($myfile);
+
+            $image_hash = $this->apiPinata($file_name);
+            $input['json'] = $image_hash['IpfsHash'];
+        
         }
         Nft::create($input);
         return response()->json(['status' => true, 'message' => 'NFT created successfully']);
@@ -126,8 +141,7 @@ class NftController extends Controller
         $this->validate($request, [
             'category_id' => 'required|integer',
             'name' => 'required|string',
-            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'price' => 'required|numeric',
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $input = $request->all();
@@ -140,7 +154,23 @@ class NftController extends Controller
 
             $image_hash = $this->apiPinata('public/nft/' . $filename);
             $input['image'] = $image_hash['IpfsHash'];
-            unlink(public_path('nft/' . $filename));
+            
+            $array = array(
+                'name' => $input['name'],
+                'image' => 'ipfs://' . $input['image'],
+                'description' => 'Rices Network is a main website aimed at creating a Layer 2 agricultural system focused on decentralizing the power farming (Defa) within the ecosystem. Therefore, to connect consumers, producers, and investors together, a blockchain-based decentralized  system was created to strengthen food security, flexibility, and transparency in the future.',
+                'date' => time()
+            );
+
+            $data = json_encode($array, JSON_UNESCAPED_SLASHES);
+            $file_name = 'public/json/' . $input['image'] . '.json';
+            $myfile = fopen($file_name, "w") or die("Unable to open file!");
+            $read = fwrite($myfile, $data);
+            fclose($myfile);
+
+            $image_hash = $this->apiPinata($file_name);
+            $input['json'] = $image_hash['IpfsHash'];
+        
         }
 
         unset($input['_method']);
@@ -215,6 +245,23 @@ class NftController extends Controller
         if ($categoryId) {
             $query->where('category_id', $categoryId);
         }
+
+        if ($sortBy === 'asc' || $sortBy === 'desc') {
+            $query->orderBy('created_at', $sortBy);
+        } elseif ($sortBy === 'random') {
+            $query->inRandomOrder();
+        }
+
+        $nfts = $query->paginate($perPage);
+        return response()->json($nfts);
+    }
+
+    public function getCategory(Request $request)
+    {
+        $sortBy = $request->input('sort_by', 'asc');
+        $perPage = $request->input('per_page', 10);
+
+        $query = Category::query();
 
         if ($sortBy === 'asc' || $sortBy === 'desc') {
             $query->orderBy('created_at', $sortBy);

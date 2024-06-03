@@ -57,10 +57,6 @@
                                                     <th class="sorting" tabindex="0" aria-controls="zero_config"
                                                         rowspan="1" colspan="1"
                                                         aria-label="Position: activate to sort column ascending"
-                                                        style="width: 187.937px;">Price</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="zero_config"
-                                                        rowspan="1" colspan="1"
-                                                        aria-label="Position: activate to sort column ascending"
                                                         style="width: 187.937px;">Image</th>
                                                     <th class="sorting" tabindex="0" aria-controls="zero_config"
                                                         rowspan="1" colspan="1"
@@ -71,16 +67,7 @@
                                             <tbody>
 
                                             </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th rowspan="1" colspan="1">Sr No.</th>
-                                                    <th rowspan="1" colspan="1">Name</th>
-                                                    <th rowspan="1" colspan="1">Category</th>
-                                                    <th rowspan="1" colspan="1">Price</th>
-                                                    <th rowspan="1" colspan="1">Image</th>
-                                                    <th rowspan="1" colspan="1">Action</th>
-                                                </tr>
-                                            </tfoot>
+                                            
                                         </table>
                                     </div>
                                 </div>
@@ -122,11 +109,6 @@
                             <input type="file" data-validation="required mime"
                                 data-validation-allowing="jpg, png, jpeg , gif" name="image" class="form-control"
                                 id="image">
-                        </div>
-                        <div class="form-group">
-                            <label for="price" class="col-form-label">Price:</label>
-                            <input type="number" data-validation="required" name="price" class="form-control"
-                                id="price">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -182,10 +164,6 @@
                     {
                         data: 'name',
                         name: 'name'
-                    },
-                    {
-                        data: 'price',
-                        name: 'price'
                     },
                     {
                         data: 'image',
