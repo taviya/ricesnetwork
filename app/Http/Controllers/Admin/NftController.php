@@ -79,7 +79,7 @@ class NftController extends Controller
 
             $image_hash = $this->apiPinata('public/nft/' . $filename);
             $input['image'] = $image_hash['IpfsHash'];
-            
+
             $array = array(
                 'name' => $input['name'],
                 'image' => 'ipfs://' . $input['image'],
@@ -95,7 +95,7 @@ class NftController extends Controller
 
             $image_hash = $this->apiPinata($file_name);
             $input['json'] = $image_hash['IpfsHash'];
-        
+
         }
         Nft::create($input);
         return response()->json(['status' => true, 'message' => 'NFT created successfully']);
@@ -160,7 +160,7 @@ class NftController extends Controller
 
             $image_hash = $this->apiPinata('public/nft/' . $filename);
             $input['image'] = $image_hash['IpfsHash'];
-            
+
             $array = array(
                 'name' => $input['name'],
                 'image' => 'ipfs://' . $input['image'],
@@ -176,7 +176,7 @@ class NftController extends Controller
 
             $image_hash = $this->apiPinata($file_name);
             $input['json'] = $image_hash['IpfsHash'];
-        
+
         }
 
         unset($input['_method']);
@@ -268,6 +268,28 @@ class NftController extends Controller
         $perPage = $request->input('per_page', 10);
 
         $query = Category::query();
+
+        if ($sortBy === 'asc' || $sortBy === 'desc') {
+            $query->orderBy('created_at', $sortBy);
+        } elseif ($sortBy === 'random') {
+            $query->inRandomOrder();
+        }
+
+        $nfts = $query->paginate($perPage);
+        return response()->json($nfts);
+    }
+
+    public function getSubCategory(Request $request)
+    {
+        $sortBy = $request->input('sort_by', 'asc');
+        $perPage = $request->input('per_page', 10);
+        $subCategoryId = $request->input('id');
+
+        $query = SubCategory::query();
+
+        if ($subCategoryId) {
+            $query->where('id', $subCategoryId);
+        }
 
         if ($sortBy === 'asc' || $sortBy === 'desc') {
             $query->orderBy('created_at', $sortBy);
