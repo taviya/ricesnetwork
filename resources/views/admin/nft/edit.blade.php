@@ -8,12 +8,25 @@
     </div>
     <div class="form-group">
         <label for="category" class="col-form-label">Select Category:</label>
-        <select name="category_id" data-validation="required" class="form-select shadow-none select2-hidden-accessible"
-            style="width: 100%; height: 36px">
+        <select name="category_id" data-validation="required"
+            class="form-select shadow-none select2-hidden-accessible category_id" style="width: 100%; height: 36px">
             <option value="">Select</option>
             @foreach ($categories as $category)
                 <option value="{{ $category->id }}" {{ $nft->category_id == $category->id ? 'selected' : '' }}>
                     {{ $category->title }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="subcategory" class="col-form-label">Select Sub Category:</label>
+        <select name="sub_category_id" data-validation="required"
+            class="form-select shadow-none select2-hidden-accessible subcategory" style="width: 100%; height: 36px">
+            <option value="">Select</option>
+            @foreach ($subcategories as $subcategory)
+                <option value="{{ $subcategory->id }}"
+                    {{ $nft->sub_category_id == $subcategory->id ? 'selected' : '' }}>
+                    {{ $subcategory->title }}
                 </option>
             @endforeach
         </select>

@@ -8,13 +8,13 @@
     <div class="page-breadcrumb">
         <div class="row">
             <div class="col-12 d-flex no-block align-items-center">
-                <h4 class="page-title">Nft</h4>
+                <h4 class="page-title">Category</h4>
                 <div class="ms-auto text-end">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('admin') }}">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                Nft
+                                Category
                             </li>
                         </ol>
                     </nav>
@@ -29,7 +29,7 @@
                 <div class="card">
                     <div class="card-header">
                         <button type="button" id="add_user" class="float-end btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target=".nft_add">Add Nft <i class="fas fa-plus"></i></button>
+                            data-bs-target=".sub_category_add">Add Category <i class="fas fa-plus"></i></button>
                     </div>
                     <div class="card-body">
                         {{-- <h5 class="card-title">Basic Datatable</h5> --}}
@@ -49,19 +49,11 @@
                                                     <th class="sorting" tabindex="0" aria-controls="zero_config"
                                                         rowspan="1" colspan="1"
                                                         aria-label="Position: activate to sort column ascending"
-                                                        style="width: 187.937px;">Name</th>
+                                                        style="width: 187.937px;">Title</th>
                                                     <th class="sorting" tabindex="0" aria-controls="zero_config"
                                                         rowspan="1" colspan="1"
                                                         aria-label="Position: activate to sort column ascending"
                                                         style="width: 187.937px;">Category</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="zero_config"
-                                                        rowspan="1" colspan="1"
-                                                        aria-label="Position: activate to sort column ascending"
-                                                        style="width: 187.937px;">Sub Category</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="zero_config"
-                                                        rowspan="1" colspan="1"
-                                                        aria-label="Position: activate to sort column ascending"
-                                                        style="width: 187.937px;">Image</th>
                                                     <th class="sorting" tabindex="0" aria-controls="zero_config"
                                                         rowspan="1" colspan="1"
                                                         aria-label="Office: activate to sort column ascending"
@@ -71,7 +63,14 @@
                                             <tbody>
 
                                             </tbody>
-
+                                            <tfoot>
+                                                <tr>
+                                                    <th rowspan="1" colspan="1">Sr No.</th>
+                                                    <th rowspan="1" colspan="1">Title</th>
+                                                    <th rowspan="1" colspan="1">Category</th>
+                                                    <th rowspan="1" colspan="1">Action</th>
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
                                 </div>
@@ -83,25 +82,20 @@
         </div>
     </div>
 
-    <div class="modal fade nft_add" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade sub_category_add" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Nft</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="nft_form">
+                <form id="sub_category_form">
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="name" class="col-form-label">Name:</label>
-                            <input type="text" data-validation="required" name="name" class="form-control"
-                                id="name">
-                        </div>
                         <div class="form-group">
                             <label for="category" class="col-form-label">Select Category:</label>
                             <select name="category_id" data-validation="required"
-                                class="form-select shadow-none select2-hidden-accessible category_id"
-                                style="width: 100%; height: 36px">
+                                class="form-select shadow-none select2-hidden-accessible" style="width: 100%; height: 36px">
                                 <option value="">Select</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->title }}</option>
@@ -109,18 +103,9 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="subcategory" class="col-form-label">Select Sub Category:</label>
-                            <select name="sub_category_id" data-validation="required"
-                                class="form-select shadow-none select2-hidden-accessible subcategory"
-                                style="width: 100%; height: 36px">
-                                <option value="">Select</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="image" class="col-form-label">Image:</label>
-                            <input type="file" data-validation="required mime"
-                                data-validation-allowing="jpg, png, jpeg , gif" name="image" class="form-control"
-                                id="image">
+                            <label for="title" class="col-form-label">Title:</label>
+                            <input type="text" data-validation="required" name="title" class="form-control"
+                                id="title">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -132,15 +117,15 @@
         </div>
     </div>
 
-    <div class="modal fade nft_edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    <div class="modal fade sub_category_edit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Nft</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="nft_edit_form">
+                <form id="sub_category_edit_form">
                     <!-- Ajax Response -->
                 </form>
             </div>
@@ -164,26 +149,18 @@
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('nft.index') }}",
+                ajax: "{{ route('sub_category.index') }}",
                 columns: [{
                         data: 'id',
                         name: 'id'
                     },
                     {
+                        data: 'title',
+                        name: 'title'
+                    },
+                    {
                         data: 'category_id',
                         name: 'category_id'
-                    },
-                    {
-                        data: 'sub_category_id',
-                        name: 'sub_category_id'
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'image',
-                        name: 'image'
                     },
                     {
                         data: 'action',
@@ -194,11 +171,11 @@
                 ]
             });
 
-            $('#nft_form').submit(function(event) {
+            $('#sub_category_form').submit(function(event) {
                 event.preventDefault();
                 $.ajax({
                     type: 'POST',
-                    url: "{{ route('nft.store') }}",
+                    url: "{{ route('sub_category.store') }}",
                     data: new FormData(this),
                     dataType: 'json',
                     contentType: false,
@@ -209,20 +186,20 @@
                     },
                     beforeSend: function() {
                         $('.submitBtn').attr("disabled", "disabled");
-                        $('#nft_form').css("opacity", ".5");
+                        $('#sub_category_form').css("opacity", ".5");
                     },
                     success: function(response) {
                         if (response.status) {
-                            $(".nft_add").modal('hide');
+                            $(".sub_category_add").modal('hide');
                             message(response.message);
-                            $('#nft_form')[0].reset();
+                            $('#sub_category_form')[0].reset();
                             table.ajax.reload();
                         }
-                        $('#nft_form').css("opacity", "");
+                        $('#sub_category_form').css("opacity", "");
                         $(".submitBtn").removeAttr("disabled");
                     },
                     error: function(xhr) {
-                        $('#nft_form').css("opacity", "");
+                        $('#sub_category_form').css("opacity", "");
                         $(".submitBtn").removeAttr("disabled");
                         var error = '';
                         $.each(xhr.responseJSON.errors, function(key, value) {
@@ -233,11 +210,11 @@
                 });
             });
 
-            $('body').on('click', '.show-nft', function() {
+            $('body').on('click', '.show-sub_category', function() {
                 var showId = $(this).data('id');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('admin/nft') }}/" + showId + "/edit",
+                    url: "{{ url('admin/sub_category') }}/" + showId + "/edit",
                     data: {},
                     dataType: 'json',
                     contentType: false,
@@ -250,8 +227,8 @@
 
                     },
                     success: function(response) {
-                        $(".nft_edit").modal('show');
-                        $("#nft_edit_form").html(response.data);
+                        $(".sub_category_edit").modal('show');
+                        $("#sub_category_edit_form").html(response.data);
                     },
                     error: function(xhr) {
 
@@ -259,7 +236,7 @@
                 });
             });
 
-            $('body').on('click', '.delete-nft', function() {
+            $('body').on('click', '.delete-sub_category', function() {
                 var deleteId = $(this).data('id');
                 Swal.fire({
                     title: 'Do you want to delete this record?',
@@ -270,7 +247,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: 'DELETE',
-                            url: "{{ url('admin/nft') }}/" + deleteId,
+                            url: "{{ url('admin/sub_category') }}/" + deleteId,
                             data: {},
                             dataType: 'json',
                             contentType: false,
@@ -280,7 +257,7 @@
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
                             beforeSend: function() {
-                                $('#nft_form').css("opacity", ".5");
+                                $('#sub_category_form').css("opacity", ".5");
                             },
                             success: function(response) {
                                 if (response.status) {
@@ -288,7 +265,7 @@
                                     table.ajax.reload();
                                     Swal.fire('Delete!', '', 'success');
                                 }
-                                $('#nft_form').css("opacity", "");
+                                $('#sub_category_form').css("opacity", "");
                             },
                             error: function(xhr) {
 
@@ -298,12 +275,12 @@
                 });
             });
 
-            $('#nft_edit_form').submit(function(event) {
+            $('#sub_category_edit_form').submit(function(event) {
                 event.preventDefault();
                 var editId = $(this).find('input[name="update_id"]').val();
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('admin/nft') }}/" + editId,
+                    url: "{{ url('admin/sub_category') }}/" + editId,
                     data: new FormData(this),
                     dataType: 'json',
                     cache: false,
@@ -314,19 +291,19 @@
                     },
                     beforeSend: function() {
                         $('.submitBtn').attr("disabled", "disabled");
-                        $('#nft_edit_form').css("opacity", ".5");
+                        $('#sub_category_edit_form').css("opacity", ".5");
                     },
                     success: function(response) {
                         if (response.status) {
-                            $(".nft_edit").modal('hide');
+                            $(".sub_category_edit").modal('hide');
                             message(response.message);
                             table.ajax.reload();
                         }
-                        $('#nft_edit_form').css("opacity", "");
+                        $('#sub_category_edit_form').css("opacity", "");
                         $(".submitBtn").removeAttr("disabled");
                     },
                     error: function(xhr) {
-                        $('#nft_edit_form').css("opacity", "");
+                        $('#sub_category_edit_form').css("opacity", "");
                         $(".submitBtn").removeAttr("disabled");
                         var error = '';
                         $.each(xhr.responseJSON.errors, function(key, value) {
@@ -335,42 +312,6 @@
                         message(error, 'danger');
                     }
                 });
-            });
-
-            $('body').on('change', '.category_id', function() {
-                var categoryId = $(this).val();
-                var subcategory = $(".subcategory");
-                subcategory.empty();
-                if (categoryId) {
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('get.subcategories') }}",
-                        data: {
-                            'category_id': categoryId
-                        },
-                        dataType: 'json',
-                        success: function(response) {
-                            if (response.status) {
-                                subcategory.append($('<option>', {
-                                    value: '',
-                                    text: 'Select Subcategory'
-                                }));
-                                $.each(response.data || [], function(index, value) {
-                                    subcategory.append($('<option>', {
-                                        value: value.id,
-                                        text: value.title
-                                    }));
-                                });
-                            }
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            console.log(xhr.responseText);
-                        }
-                    });
-                } else {
-                    $('select[name="sub_category_id"]').html(
-                        '<option value="">Select Category First</option>');
-                }
             });
         });
     </script>

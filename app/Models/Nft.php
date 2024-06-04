@@ -10,6 +10,7 @@ class Nft extends Model
     use HasFactory;
     protected $fillable = [
         'category_id',
+        'sub_category_id',
         'name',
         'image',
         'json'
@@ -18,5 +19,10 @@ class Nft extends Model
     public function getCategory()
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function getSubCategory()
+    {
+        return $this->belongsTo(SubCategory::class, 'sub_category_id');
     }
 }

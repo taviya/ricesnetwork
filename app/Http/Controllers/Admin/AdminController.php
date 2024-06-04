@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\SubCategory;
 use App\Models\Nft;
 
 class AdminController extends Controller
@@ -15,8 +16,9 @@ class AdminController extends Controller
     public function index()
     {
         $categoryCount = Category::get()->count();
-        $nft = Nft::get()->count();
-        return view('admin.index', compact('categoryCount', 'nft'));
+        $subCategoryCount = SubCategory::get()->count();
+        $nftCount = Nft::get()->count();
+        return view('admin.index', compact('categoryCount', 'subCategoryCount', 'nftCount'));
     }
 
     /**

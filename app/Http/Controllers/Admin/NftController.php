@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
+use App\Models\Subcategory;
 use App\Models\Nft;
 use Illuminate\Http\Request;
 use DataTables;
@@ -30,6 +31,9 @@ class NftController extends Controller
                 })
                 ->editColumn('category_id', function ($row) {
                     return $row->getCategory->title;
+                })
+                ->editColumn('sub_category_id', function ($row) {
+                    return $row->getSubCategory->title;
                 })
                 ->rawColumns(['action', 'image'])
                 ->make(true);
@@ -59,6 +63,7 @@ class NftController extends Controller
     {
         $this->validate($request, [
             'category_id' => 'required|integer',
+            'sub_category_id' => 'required|integer',
             'name' => 'required|string',
             // 'image' => 'required|string',
             'image' => 'required|nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
@@ -125,7 +130,8 @@ class NftController extends Controller
     public function edit(Nft $nft)
     {
         $categories = Category::get();
-        $html = view('admin.nft.edit', compact('nft', 'categories'))->render();
+        $subcategories = Subcategory::where('category_id', $nft->category_id)->get();
+        $html = view('admin.nft.edit', compact('nft', 'categories', 'subcategories'))->render();
         return response()->json(array('status' => TRUE, 'data' => $html));
     }
 
