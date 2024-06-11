@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DataTables;
 use Image;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -25,10 +26,15 @@ class CategoryController extends Controller
                 })
                 ->editColumn('image', function ($row) {
                     $baseUrl = config('app.url'); // Retrieve the base URL from the configuration
-                    $imagePath = $baseUrl . '/public/category/' . $row->image; // Combine base URL with the image path from the database
+                    $imagePath = $baseUrl . $row->image; // Combine base URL with the image path from the database
                     return '<img src="' . $imagePath . '" height="100" width="100" />';
                 })
-                ->rawColumns(['action', 'image'])
+                ->editColumn('banner', function ($row) {
+                    $baseUrl = config('app.url'); // Retrieve the base URL from the configuration
+                    $imagePath = $baseUrl . $row->banner; // Combine base URL with the image path from the database
+                    return '<img src="' . $imagePath . '" height="100" width="100" />';
+                })
+                ->rawColumns(['action', 'image' , 'banner'])
                 ->make(true);
         } else {
             return view('admin.category.index');
@@ -51,20 +57,29 @@ class CategoryController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'image' => 'required|nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'banner' => 'required|nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         
         $filename = '';
+        $bannerName = '';
         $input = $request->all();
         if ($request->hasfile('image')) {
             $file = $request->file('image');
             $extenstion = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extenstion;
+            $filename = Str::random(10) . '.' . $extenstion;
             $file->move('public/category/', $filename);
+        }
+        if ($request->hasfile('banner')) {
+            $file = $request->file('banner');
+            $extenstion = $file->getClientOriginalExtension();
+            $bannerName = Str::random(10) . '.' . $extenstion;
+            $file->move('public/category/', $bannerName);
         }
         Category::create([
             'title' => $input['title'],
-            'image' => $filename
+            'image' => '/public/category/'.$filename,
+            'banner' => '/public/category/'.$bannerName
         ]);
         return response()->json(array('status' => TRUE, 'message' => 'Category add successfully'));
     }
@@ -101,7 +116,15 @@ class CategoryController extends Controller
             $extenstion = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extenstion;
             $file->move('public/category/', $filename);
-            $input['image'] = $filename;
+            $input['image'] = '/public/category/'.$filename;
+        }
+
+        if ($request->hasfile('banner')) {
+            $file = $request->file('banner');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extenstion;
+            $file->move('public/category/', $filename);
+            $input['banner'] = '/public/category/'.$filename;
         }
         
         unset($input['_method']);

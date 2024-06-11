@@ -170,6 +170,10 @@
                         name: 'id'
                     },
                     {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
                         data: 'category_id',
                         name: 'category_id'
                     },
@@ -177,10 +181,7 @@
                         data: 'sub_category_id',
                         name: 'sub_category_id'
                     },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
+                    
                     {
                         data: 'image',
                         name: 'image'

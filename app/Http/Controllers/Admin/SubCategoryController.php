@@ -6,6 +6,7 @@ use App\Models\SubCategory;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Str;
 
 class SubCategoryController extends Controller
 {
@@ -18,14 +19,20 @@ class SubCategoryController extends Controller
             $data = SubCategory::get();
             return DataTables::of($data)
                 ->addIndexColumn()
+                
+                ->editColumn('category_id', function ($row) {
+                    return $row->getCategory->title;
+                })
+                ->editColumn('image', function ($row) {
+                    $baseUrl = config('app.url'); // Retrieve the base URL from the configuration
+                    $imagePath = $baseUrl . $row->image; // Combine base URL with the image path from the database
+                    return '<img src="' . $imagePath . '" height="100" width="100" />';
+                })
                 ->addColumn('action', function ($row) {
                     $btn = '<i class="fas fa-2x fa-eye text-primary show-sub_category" data-id="' . $row->id . '"></i> <i class="fas fa-2x fa-trash text-danger delete-sub_category" data-id="' . $row->id . '"></i>';
                     return $btn;
                 })
-                ->editColumn('category_id', function ($row) {
-                    return $row->getCategory->title;
-                })
-                ->rawColumns(['action'])
+                ->rawColumns(['action','image'])
                 ->make(true);
         } else {
             $categories = Category::get();
@@ -49,12 +56,20 @@ class SubCategoryController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'category_id' => 'required',
+            'image' => 'required|nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $input = $request->all();
+        if ($request->hasfile('image')) {
+            $file = $request->file('image');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = Str::random(10) . '.' . $extenstion;
+            $file->move('public/category/', $filename);
+        }
         SubCategory::create([
             'title' => $input['title'],
             'category_id' => $input['category_id'],
+            'image' => '/public/category/' . $filename
         ]);
         return response()->json(array('status' => TRUE, 'message' => 'Sub Category add successfully'));
     }
@@ -88,6 +103,14 @@ class SubCategoryController extends Controller
         ]);
 
         $input = $request->all();
+
+        if ($request->hasfile('image')) {
+            $file = $request->file('image');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extenstion;
+            $file->move('public/category/', $filename);
+            $input['image'] = '/public/category/' . $filename;
+        }
 
         unset($input['_method']);
         unset($input['update_id']);

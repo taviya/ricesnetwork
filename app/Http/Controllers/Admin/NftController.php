@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
-use App\Models\Subcategory;
+use App\Models\SubCategory;
 use App\Models\Nft;
 use Illuminate\Http\Request;
 use DataTables;
@@ -50,7 +50,6 @@ class NftController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -95,7 +94,6 @@ class NftController extends Controller
 
             $image_hash = $this->apiPinata($file_name);
             $input['json'] = $image_hash['IpfsHash'];
-
         }
         Nft::create($input);
         return response()->json(['status' => true, 'message' => 'NFT created successfully']);
@@ -176,7 +174,6 @@ class NftController extends Controller
 
             $image_hash = $this->apiPinata($file_name);
             $input['json'] = $image_hash['IpfsHash'];
-
         }
 
         unset($input['_method']);
@@ -243,13 +240,17 @@ class NftController extends Controller
     public function getNft(Request $request)
     {
         $categoryId = $request->input('category_id');
+        $subcateId = $request->input('sub_category_id');
         $sortBy = $request->input('sort_by', 'asc');
         $perPage = $request->input('per_page', 10);
 
-        $query = Nft::query()->with('getCategory');
+        $query = Nft::query()->with('getCategory')->with('getSubCategory');
 
         if ($categoryId) {
             $query->where('category_id', $categoryId);
+        }
+        if ($subcateId) {
+            $query->where('sub_category_id', $subcateId);
         }
 
         if ($sortBy === 'asc' || $sortBy === 'desc') {
@@ -266,6 +267,11 @@ class NftController extends Controller
     {
         $sortBy = $request->input('sort_by', 'asc');
         $perPage = $request->input('per_page', 10);
+        $id = $request->input('id');
+        if ($id) {
+            $data = Category::where('id', $id)->first();
+            return response()->json($data);
+        }
 
         $query = Category::query();
 
@@ -283,12 +289,18 @@ class NftController extends Controller
     {
         $sortBy = $request->input('sort_by', 'asc');
         $perPage = $request->input('per_page', 10);
+        $categoryId = $request->input('category_id');
         $subCategoryId = $request->input('id');
 
         $query = SubCategory::query();
 
         if ($subCategoryId) {
-            $query->where('id', $subCategoryId);
+            $data = SubCategory::where('id', $subCategoryId)->first();
+            return response()->json($data);
+        }
+
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
         }
 
         if ($sortBy === 'asc' || $sortBy === 'desc') {

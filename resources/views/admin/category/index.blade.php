@@ -42,20 +42,14 @@
                                                 <th class="sorting_asc" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 112.421px;">Sr No.</th>
                                                 <th class="sorting" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 187.937px;">Title</th>
                                                 <th class="sorting" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 187.937px;">Image</th>
+                                                <th class="sorting" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 187.937px;">Banner</th>
                                                 <th class="sorting" tabindex="0" aria-controls="zero_config" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 82.7381px;">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                         </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th rowspan="1" colspan="1">Sr No.</th>
-                                                <th rowspan="1" colspan="1">Title</th>
-                                                <th rowspan="1" colspan="1">Image</th>
-                                                <th rowspan="1" colspan="1">Action</th>
-                                            </tr>
-                                        </tfoot>
+                                        
                                     </table>
                                 </div>
                             </div>
@@ -83,6 +77,10 @@
                     <div class="form-group">
                         <label for="image" class="col-form-label">Image:</label>
                         <input type="file" data-validation="required mime" data-validation-allowing="jpg, png, jpeg , gif" name="image" class="form-control" id="image">
+                    </div>
+                    <div class="form-group">
+                        <label for="banner" class="col-form-label">Banner:</label>
+                        <input type="file" data-validation="required mime" data-validation-allowing="jpg, png, jpeg , gif" name="banner" class="form-control" id="banner">
                     </div>
                 </div>
 
@@ -138,6 +136,10 @@
                 {
                     data: 'image',
                     name: 'image'
+                },
+                {
+                    data: 'banner',
+                    name: 'banner'
                 },
                 {
                     data: 'action',

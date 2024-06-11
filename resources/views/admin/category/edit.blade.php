@@ -10,6 +10,11 @@
         <input type="file" data-validation="mime" data-validation-allowing="jpg, png, jpeg , gif" name="image"
             class="form-control" id="image">
     </div>
+    <div class="form-group">
+        <label for="banner" class="col-form-label">Banner:</label>
+        <input type="file" data-validation="mime" data-validation-allowing="jpg, png, jpeg , gif" name="banner"
+            class="form-control" id="banner">
+    </div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
