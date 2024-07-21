@@ -15,6 +15,7 @@ class Category extends Model
         'title',
         'image',
         'banner',
+        'volume',
         'status',
     ];
 }

@@ -312,4 +312,20 @@ class NftController extends Controller
         $nfts = $query->paginate($perPage);
         return response()->json($nfts);
     }
+
+
+    public function addVolume(Request $request)
+    {
+        $categoryId = $request->input('category_id');
+        $subCategoryId = $request->input('sub_category_id');
+        $volume = $request->input('volume');
+
+        // Update the volume column by incrementing it with the given value
+        Category::where('id', $categoryId)->increment('volume', $volume);
+
+        // Update the volume column by incrementing it with the given value
+        SubCategory::where('id', $subCategoryId)->increment('volume', $volume);
+
+        return response()->json(['error' => 'OK']);
+    }
 }
